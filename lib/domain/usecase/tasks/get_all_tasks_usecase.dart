@@ -11,7 +11,7 @@ class GetAllTasksUseCase extends UseCase<List<TaskEntity>, void> {
   GetAllTasksUseCase({required Repository repository}) : _repository = repository;
 
   @override
-  Future<Result<CustomFailure, List<TaskEntity>>> call(void _) {
+  Future<Result<CustomFailure, List<TaskEntity>>> call(void params) {
     return _repository.getAllTasks();
   }
 }

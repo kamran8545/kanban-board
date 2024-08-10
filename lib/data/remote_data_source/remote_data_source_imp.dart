@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:time_tracking_app/data/remote_data_source/remote_data_source.dart';

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<TasksBloc>(
           create: (_) => sl<TasksBloc>()
             ..add(
-              GetAllTasksEvent(),
+              const GetAllTasksEvent(),
             ),
         ),
       ],
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: const HomeScreen(),
       ),
     );
   }

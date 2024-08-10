@@ -1,4 +1,4 @@
-# time_tracking_app
+# Kanban Board App
 
 A new Flutter project.
 

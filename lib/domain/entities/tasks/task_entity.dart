@@ -9,9 +9,11 @@ part 'task_entity.g.dart';
 class TaskEntity with _$TaskEntity {
   
   const factory TaskEntity({
+    required String id,
     required String content,
     required String description,
-    @JsonKey(name: 'project_id') required String projectId,
+    @JsonKey(name: 'project_id')
+    required String projectId,
     required int priority,
     @JsonKey(name: 'due')
     required TaskDueDateEntity? dueDateEntity,

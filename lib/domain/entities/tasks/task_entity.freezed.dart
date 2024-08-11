@@ -20,6 +20,7 @@ TaskEntity _$TaskEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskEntity {
+  String get id => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'project_id')
@@ -41,7 +42,8 @@ abstract class $TaskEntityCopyWith<$Res> {
       _$TaskEntityCopyWithImpl<$Res, TaskEntity>;
   @useResult
   $Res call(
-      {String content,
+      {String id,
+      String content,
       String description,
       @JsonKey(name: 'project_id') String projectId,
       int priority,
@@ -63,6 +65,7 @@ class _$TaskEntityCopyWithImpl<$Res, $Val extends TaskEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? content = null,
     Object? description = null,
     Object? projectId = null,
@@ -70,6 +73,10 @@ class _$TaskEntityCopyWithImpl<$Res, $Val extends TaskEntity>
     Object? dueDateEntity = freezed,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -115,7 +122,8 @@ abstract class _$$TaskEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String content,
+      {String id,
+      String content,
       String description,
       @JsonKey(name: 'project_id') String projectId,
       int priority,
@@ -136,6 +144,7 @@ class __$$TaskEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? content = null,
     Object? description = null,
     Object? projectId = null,
@@ -143,6 +152,10 @@ class __$$TaskEntityImplCopyWithImpl<$Res>
     Object? dueDateEntity = freezed,
   }) {
     return _then(_$TaskEntityImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       content: null == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -171,7 +184,8 @@ class __$$TaskEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TaskEntityImpl implements _TaskEntity {
   const _$TaskEntityImpl(
-      {required this.content,
+      {required this.id,
+      required this.content,
       required this.description,
       @JsonKey(name: 'project_id') required this.projectId,
       required this.priority,
@@ -180,6 +194,8 @@ class _$TaskEntityImpl implements _TaskEntity {
   factory _$TaskEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskEntityImplFromJson(json);
 
+  @override
+  final String id;
   @override
   final String content;
   @override
@@ -195,7 +211,7 @@ class _$TaskEntityImpl implements _TaskEntity {
 
   @override
   String toString() {
-    return 'TaskEntity(content: $content, description: $description, projectId: $projectId, priority: $priority, dueDateEntity: $dueDateEntity)';
+    return 'TaskEntity(id: $id, content: $content, description: $description, projectId: $projectId, priority: $priority, dueDateEntity: $dueDateEntity)';
   }
 
   @override
@@ -203,6 +219,7 @@ class _$TaskEntityImpl implements _TaskEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TaskEntityImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.description, description) ||
                 other.description == description) &&
@@ -216,8 +233,8 @@ class _$TaskEntityImpl implements _TaskEntity {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, content, description, projectId, priority, dueDateEntity);
+  int get hashCode => Object.hash(runtimeType, id, content, description,
+      projectId, priority, dueDateEntity);
 
   @JsonKey(ignore: true)
   @override
@@ -235,7 +252,8 @@ class _$TaskEntityImpl implements _TaskEntity {
 
 abstract class _TaskEntity implements TaskEntity {
   const factory _TaskEntity(
-      {required final String content,
+      {required final String id,
+      required final String content,
       required final String description,
       @JsonKey(name: 'project_id') required final String projectId,
       required final int priority,
@@ -245,6 +263,8 @@ abstract class _TaskEntity implements TaskEntity {
   factory _TaskEntity.fromJson(Map<String, dynamic> json) =
       _$TaskEntityImpl.fromJson;
 
+  @override
+  String get id;
   @override
   String get content;
   @override

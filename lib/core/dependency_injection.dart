@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:time_tracking_app/domain/usecase/tasks/create_tasks_usecase.dart';
+import 'package:time_tracking_app/domain/usecase/tasks/delete_task_usecase.dart';
 import 'package:time_tracking_app/domain/usecase/tasks/get_all_tasks_usecase.dart';
+import 'package:time_tracking_app/domain/usecase/tasks/update_task_usecase.dart';
 import 'package:time_tracking_app/presentation/home/bloc/tasks_bloc.dart';
 
 import '../data/local_data_source/local_data_source.dart';
@@ -43,12 +45,16 @@ Future<void> initializeDependencies() async {
   /// UseCases
   sl.registerLazySingleton<GetAllTasksUseCase>(() => GetAllTasksUseCase(repository: sl()));
   sl.registerLazySingleton<CreateTasksUseCase>(() => CreateTasksUseCase(repository: sl()));
+  sl.registerLazySingleton<UpdateTasksUseCase>(() => UpdateTasksUseCase(repository: sl()));
+  sl.registerLazySingleton<DeleteTaskUseCase>(() => DeleteTaskUseCase(repository: sl()));
 
   /// Blocs
   sl.registerLazySingleton<TasksBloc>(
     () => TasksBloc(
       createTasksUseCase: sl(),
       getAllTasksUseCase: sl(),
+      deleteTaskUseCase: sl(),
+      updateTasksUseCase: sl(),
     ),
   );
 }

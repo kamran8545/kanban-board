@@ -33,7 +33,7 @@ class RepositoryImp implements Repository {
   }
 
   @override
-  Future<Result<CustomFailure, List<TaskEntity>>> getAllTasks() async{
+  Future<Result<CustomFailure, List<TaskEntity>>> getAllTasks() async {
     if (!await _networkInfo.isConnected) {
       return const Failure(failureRes: NetworkFailure(message: AppConstants.noInternet));
     }
@@ -41,9 +41,39 @@ class RepositoryImp implements Repository {
     try {
       return Success(successRes: await _remoteDataSource.getAllTasks());
     } on CustomFailure catch (e) {
-    return Failure(failureRes: e);
+      return Failure(failureRes: e);
     } catch (e) {
-    return Failure(failureRes: ServerFailure(message: e.toString()));
+      return Failure(failureRes: ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<CustomFailure, bool>> updateTask(TaskEntity taskEntity) async {
+    if (!await _networkInfo.isConnected) {
+      return const Failure(failureRes: NetworkFailure(message: AppConstants.noInternet));
+    }
+
+    try {
+      return Success(successRes: await _remoteDataSource.updateTask(taskEntity));
+    } on CustomFailure catch (e) {
+      return Failure(failureRes: e);
+    } catch (e) {
+      return Failure(failureRes: ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<CustomFailure, bool>> deleteTask(String taskId) async {
+    if (!await _networkInfo.isConnected) {
+      return const Failure(failureRes: NetworkFailure(message: AppConstants.noInternet));
+    }
+
+    try {
+      return Success(successRes: await _remoteDataSource.deleteTask(taskId));
+    } on CustomFailure catch (e) {
+      return Failure(failureRes: e);
+    } catch (e) {
+      return Failure(failureRes: ServerFailure(message: e.toString()));
     }
   }
 }

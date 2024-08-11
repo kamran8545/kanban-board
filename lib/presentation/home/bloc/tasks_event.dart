@@ -13,3 +13,11 @@ class CreateTaskEvent extends TasksEvent {
 class GetAllTasksEvent extends TasksEvent {
   const GetAllTasksEvent();
 }
+
+class UpdateTaskEvent extends TasksEvent {
+  const UpdateTaskEvent(TaskEntity taskEntity) : super(taskEntity: taskEntity);
+}
+
+class DeleteTaskEvent extends TasksEvent {
+  const DeleteTaskEvent(TaskEntity taskEntity) : super(taskEntity: taskEntity);
+}

@@ -8,9 +8,11 @@ class TaskDueDateEntity with _$TaskDueDateEntity {
 
   const factory TaskDueDateEntity({
     required String date,
-    @JsonKey(name: 'string') required String description,
+    @JsonKey(name: 'string')
+    required String description,
     required String lang,
-    @JsonKey(name: 'is_recurring') required bool isRecurring,
+    @JsonKey(name: 'is_recurring')
+    required bool isRecurring,
     @JsonKey(name: 'datetime', defaultValue: '')
     required String dateTime
   }) = _TaskDueDateEntity;

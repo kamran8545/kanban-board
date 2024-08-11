@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:time_tracking_app/data/remote_data_source/remote_data_source.dart';
 import 'package:time_tracking_app/domain/entities/custom_failures.dart';
@@ -23,9 +22,8 @@ class RemoteDataSourceImp extends RemoteDataSource {
       );
       if (response.statusCode == 200) {
         return true;
-      }else {
-        return false;
       }
+      return false;
     } on DioException catch (error) {
       throw ServerFailure(
         message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
@@ -36,7 +34,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<List<TaskEntity>> getAllTasks() async{
+  Future<List<TaskEntity>> getAllTasks() async {
     try {
       _dio.options.headers = headers;
       final response = await _dio.get(
@@ -44,11 +42,53 @@ class RemoteDataSourceImp extends RemoteDataSource {
       );
       List<TaskEntity> tasks = [];
       if (response.statusCode == 200) {
-        for(var task in response.data){
+        for (var task in response.data) {
           tasks.add(TaskEntity.fromJson(task));
         }
       }
       return tasks;
+    } on DioException catch (error) {
+      throw ServerFailure(
+        message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> updateTask(TaskEntity taskEntity) async {
+    try {
+      _dio.options.headers = headers;
+      final response = await _dio.post(
+        '${ApiUrls.tasksURL}/${taskEntity.id}',
+        data: taskEntity.toJson(),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } on DioException catch (error) {
+      throw ServerFailure(
+        message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> deleteTask(String taskId) async {
+    try {
+      _dio.options.headers = headers;
+      final response = await _dio.delete(
+        '${ApiUrls.tasksURL}/$taskId',
+      );
+
+      if (response.statusCode == 204) {
+        return true;
+      }
+      return false;
     } on DioException catch (error) {
       throw ServerFailure(
         message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),

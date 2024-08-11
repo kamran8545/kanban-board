@@ -16,4 +16,16 @@ abstract class Repository {
   /// Output : if operation successful returns [List<TaskEntity>]
   /// if unsuccessful the response will be [CustomFailure]
   Future<Result<CustomFailure, List<TaskEntity>>> getAllTasks();
+
+  /// This method will update tasks on server
+  /// Input : [TaskEntity] contains tasks data
+  /// Output : if operation successful returns [bool] true
+  /// if unsuccessful the response will be [CustomFailure]
+  Future<Result<CustomFailure, bool>> updateTask(TaskEntity taskEntity);
+
+  /// This method will delete tasks on server
+  /// Input : [TaskEntity] contains tasks data
+  /// Output : if operation successful returns [bool] true
+  /// if unsuccessful the response will be [CustomFailure]
+  Future<Result<CustomFailure, bool>> deleteTask(String taskId);
 }

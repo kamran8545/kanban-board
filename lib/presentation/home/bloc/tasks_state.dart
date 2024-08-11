@@ -24,6 +24,14 @@ class TasksLoadedState extends TasksState {
   const TasksLoadedState({required List<TaskEntity> tasks}) : super(tasks: tasks);
 }
 
+class TasksUpdatedState extends TasksState {
+  const TasksUpdatedState();
+}
+
+class TasksDeletedState extends TasksState {
+  const TasksDeletedState();
+}
+
 class TasksLoadingErrorState extends TasksState {
   const TasksLoadingErrorState(CustomFailure failure) : super(failure: failure);
 }

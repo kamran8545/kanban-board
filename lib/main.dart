@@ -4,7 +4,7 @@ import 'package:time_tracking_app/presentation/home/bloc/tasks_bloc.dart';
 import 'package:time_tracking_app/presentation/home/bloc/tasks_event.dart';
 import 'package:time_tracking_app/presentation/home/home_screen.dart';
 
-import 'app_ bloc_observer.dart';
+import 'app_bloc_observer.dart';
 import 'core/dependency_injection.dart';
 
 Future<void> main() async {

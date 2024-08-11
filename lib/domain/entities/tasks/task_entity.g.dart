@@ -8,6 +8,7 @@ part of 'task_entity.dart';
 
 _$TaskEntityImpl _$$TaskEntityImplFromJson(Map<String, dynamic> json) =>
     _$TaskEntityImpl(
+      id: json['id'] as String,
       content: json['content'] as String,
       description: json['description'] as String,
       projectId: json['project_id'] as String,
@@ -19,6 +20,7 @@ _$TaskEntityImpl _$$TaskEntityImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$TaskEntityImplToJson(_$TaskEntityImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'content': instance.content,
       'description': instance.description,
       'project_id': instance.projectId,

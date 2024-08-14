@@ -80,23 +80,28 @@ class MockRepository extends _i1.Mock implements _i4.Repository {
       ) as _i3.Future<_i5.Result<_i6.CustomFailure, bool>>);
 
   @override
-  _i3.Future<
-      _i5.Result<_i6.CustomFailure,
-          List<_i7.TaskEntity>>> getAllTasks() => (super.noSuchMethod(
-        Invocation.method(
-          #getAllTasks,
-          [],
-        ),
-        returnValue: _i3
-            .Future<_i5.Result<_i6.CustomFailure, List<_i7.TaskEntity>>>.value(
-            _i8.dummyValue<_i5.Result<_i6.CustomFailure, List<_i7.TaskEntity>>>(
-          this,
-          Invocation.method(
-            #getAllTasks,
-            [],
-          ),
-        )),
-      ) as _i3.Future<_i5.Result<_i6.CustomFailure, List<_i7.TaskEntity>>>);
+  _i3.Future<_i5.Result<_i6.CustomFailure, Map<String, List<_i7.TaskEntity>>>>
+      getAllTasks({required String? projectId}) => (super.noSuchMethod(
+            Invocation.method(
+              #getAllTasks,
+              [],
+              {#projectId: projectId},
+            ),
+            returnValue: _i3.Future<
+                _i5.Result<_i6.CustomFailure,
+                    Map<String, List<_i7.TaskEntity>>>>.value(_i8.dummyValue<
+                _i5
+                .Result<_i6.CustomFailure, Map<String, List<_i7.TaskEntity>>>>(
+              this,
+              Invocation.method(
+                #getAllTasks,
+                [],
+                {#projectId: projectId},
+              ),
+            )),
+          ) as _i3.Future<
+              _i5
+              .Result<_i6.CustomFailure, Map<String, List<_i7.TaskEntity>>>>);
 
   @override
   _i3.Future<_i5.Result<_i6.CustomFailure, bool>> updateTask(
@@ -152,13 +157,17 @@ class MockRemoteDataSource extends _i1.Mock implements _i9.RemoteDataSource {
       ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<List<_i7.TaskEntity>> getAllTasks() => (super.noSuchMethod(
+  _i3.Future<Map<String, List<_i7.TaskEntity>>> getAllTasks(
+          {required String? projectId}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getAllTasks,
           [],
+          {#projectId: projectId},
         ),
-        returnValue: _i3.Future<List<_i7.TaskEntity>>.value(<_i7.TaskEntity>[]),
-      ) as _i3.Future<List<_i7.TaskEntity>>);
+        returnValue: _i3.Future<Map<String, List<_i7.TaskEntity>>>.value(
+            <String, List<_i7.TaskEntity>>{}),
+      ) as _i3.Future<Map<String, List<_i7.TaskEntity>>>);
 
   @override
   _i3.Future<bool> updateTask(_i7.TaskEntity? taskEntity) =>

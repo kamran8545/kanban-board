@@ -24,11 +24,13 @@ void main() {
   test(
     'task updated status should be true',
     () async {
-      when(mockRepository.updateTask(kTaskEntityTest)).thenAnswer((_) async {
+      when(
+        mockRepository.updateTask(TestConstants.kTaskEntityTest),
+      ).thenAnswer((_) async {
         return const Success(successRes: true);
       });
 
-      final result = await updateTaskUseCase.call(kTaskEntityTest);
+      final result = await updateTaskUseCase.call(TestConstants.kTaskEntityTest);
 
       expect((result as Success).successRes, true);
     },

@@ -24,11 +24,13 @@ void main() {
   test(
     'task deleted status should be true',
     () async {
-      when(mockRepository.deleteTask(kTaskEntityTest.id)).thenAnswer((_) async {
+      when(
+        mockRepository.deleteTask(TestConstants.kTaskEntityTest.id),
+      ).thenAnswer((_) async {
         return const Success(successRes: true);
       });
 
-      final result = await deleteTaskUseCase.call(kTaskEntityTest.id);
+      final result = await deleteTaskUseCase.call(TestConstants.kTaskEntityTest.id);
 
       expect((result as Success).successRes, true);
     },

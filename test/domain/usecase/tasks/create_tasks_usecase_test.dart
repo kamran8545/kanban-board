@@ -24,11 +24,13 @@ void main() async {
   test(
     'task created status should be true',
     () async {
-      when(mockRepository.addTasks(kTaskEntityTest)).thenAnswer((_) async {
+      when(
+        mockRepository.addTasks(TestConstants.kTaskEntityTest),
+      ).thenAnswer((_) async {
         return const Success(successRes: true);
       });
 
-      final result = await createTasksUseCase.call(kTaskEntityTest);
+      final result = await createTasksUseCase.call(TestConstants.kTaskEntityTest);
 
       expect((result as Success).successRes, true);
     },

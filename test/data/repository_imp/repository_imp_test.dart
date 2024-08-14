@@ -23,8 +23,8 @@ void main() {
       'task created status should be true',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.addTasks(kTaskEntityTest)).thenAnswer((_) async => Future.value(true));
-        final result = await repositoryImp.addTasks(kTaskEntityTest);
+        when(mockRemoteDataSource.addTasks(TestConstants.kTaskEntityTest)).thenAnswer((_) async => Future.value(true));
+        final result = await repositoryImp.addTasks(TestConstants.kTaskEntityTest);
         expect((result as Success).successRes, true);
       },
     );
@@ -33,8 +33,8 @@ void main() {
       'should return network failure when device is not connected to internet',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(false));
-        when(mockRemoteDataSource.addTasks(kTaskEntityTest)).thenAnswer((_) async => Future.value(true));
-        final result = await repositoryImp.addTasks(kTaskEntityTest);
+        when(mockRemoteDataSource.addTasks(TestConstants.kTaskEntityTest)).thenAnswer((_) async => Future.value(true));
+        final result = await repositoryImp.addTasks(TestConstants.kTaskEntityTest);
         expect((result as Failure).failureRes, isA<NetworkFailure>());
       },
     );
@@ -43,10 +43,10 @@ void main() {
       'should return Server Failure when when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.addTasks(kTaskEntityTest)).thenAnswer(
+        when(mockRemoteDataSource.addTasks(TestConstants.kTaskEntityTest)).thenAnswer(
           (_) => throw const ServerFailure(message: 'Something Went Wrong'),
         );
-        final result = await repositoryImp.addTasks(kTaskEntityTest);
+        final result = await repositoryImp.addTasks(TestConstants.kTaskEntityTest);
         expect((result as Failure).failureRes, isA<ServerFailure>());
       },
     );
@@ -57,8 +57,9 @@ void main() {
       'task deleted status should be true',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.deleteTask(kTaskEntityTest.id)).thenAnswer((_) async => Future.value(true));
-        final result = await repositoryImp.deleteTask(kTaskEntityTest.id);
+        when(mockRemoteDataSource.deleteTask(TestConstants.kTaskEntityTest.id))
+            .thenAnswer((_) async => Future.value(true));
+        final result = await repositoryImp.deleteTask(TestConstants.kTaskEntityTest.id);
         expect((result as Success).successRes, true);
       },
     );
@@ -67,8 +68,9 @@ void main() {
       'should return network failure when device is not connected to internet',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(false));
-        when(mockRemoteDataSource.deleteTask(kTaskEntityTest.id)).thenAnswer((_) async => Future.value(true));
-        final result = await repositoryImp.deleteTask(kTaskEntityTest.id);
+        when(mockRemoteDataSource.deleteTask(TestConstants.kTaskEntityTest.id))
+            .thenAnswer((_) async => Future.value(true));
+        final result = await repositoryImp.deleteTask(TestConstants.kTaskEntityTest.id);
         expect((result as Failure).failureRes, isA<NetworkFailure>());
       },
     );
@@ -77,10 +79,10 @@ void main() {
       'should return Server Failure when when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.deleteTask(kTaskEntityTest.id)).thenAnswer(
+        when(mockRemoteDataSource.deleteTask(TestConstants.kTaskEntityTest.id)).thenAnswer(
           (_) => throw const ServerFailure(message: 'Something Went Wrong'),
         );
-        final result = await repositoryImp.deleteTask(kTaskEntityTest.id);
+        final result = await repositoryImp.deleteTask(TestConstants.kTaskEntityTest.id);
         expect((result as Failure).failureRes, isA<ServerFailure>());
       },
     );
@@ -91,8 +93,9 @@ void main() {
       'task updated status should be true',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.updateTask(kTaskEntityTest)).thenAnswer((_) async => Future.value(true));
-        final result = await repositoryImp.updateTask(kTaskEntityTest);
+        when(mockRemoteDataSource.updateTask(TestConstants.kTaskEntityTest))
+            .thenAnswer((_) async => Future.value(true));
+        final result = await repositoryImp.updateTask(TestConstants.kTaskEntityTest);
         expect((result as Success).successRes, true);
       },
     );
@@ -101,8 +104,9 @@ void main() {
       'should return network failure when device is not connected to internet',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(false));
-        when(mockRemoteDataSource.updateTask(kTaskEntityTest)).thenAnswer((_) async => Future.value(true));
-        final result = await repositoryImp.updateTask(kTaskEntityTest);
+        when(mockRemoteDataSource.updateTask(TestConstants.kTaskEntityTest))
+            .thenAnswer((_) async => Future.value(true));
+        final result = await repositoryImp.updateTask(TestConstants.kTaskEntityTest);
         expect((result as Failure).failureRes, isA<NetworkFailure>());
       },
     );
@@ -111,10 +115,10 @@ void main() {
       'should return Server Failure when when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.updateTask(kTaskEntityTest)).thenAnswer(
+        when(mockRemoteDataSource.updateTask(TestConstants.kTaskEntityTest)).thenAnswer(
           (_) => throw const ServerFailure(message: 'Something Went Wrong'),
         );
-        final result = await repositoryImp.updateTask(kTaskEntityTest);
+        final result = await repositoryImp.updateTask(TestConstants.kTaskEntityTest);
         expect((result as Failure).failureRes, isA<ServerFailure>());
       },
     );
@@ -122,12 +126,14 @@ void main() {
 
   group('get all tasks', () {
     test(
-      'should get list of tasks',
+      'should get map containing list of tasks',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.getAllTasks()).thenAnswer((_) async => kTaskEntitiesTest);
-        final result = await repositoryImp.getAllTasks();
-        expect((result as Success).successRes, kTaskEntitiesTest);
+        when(mockRemoteDataSource.getAllTasks(projectId: TestConstants.kProjectId)).thenAnswer(
+          (_) async => TestConstants.kTasksMap,
+        );
+        final result = await repositoryImp.getAllTasks(projectId: TestConstants.kProjectId);
+        expect((result as Success).successRes, TestConstants.kTasksMap);
       },
     );
 
@@ -135,8 +141,10 @@ void main() {
       'should return network failure when device is not connected to internet',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(false));
-        when(mockRemoteDataSource.getAllTasks()).thenAnswer((_) async => kTaskEntitiesTest);
-        final result = await repositoryImp.getAllTasks();
+        when(mockRemoteDataSource.getAllTasks(projectId: TestConstants.kProjectId)).thenAnswer(
+          (_) async => TestConstants.kTasksMap,
+        );
+        final result = await repositoryImp.getAllTasks(projectId: TestConstants.kProjectId);
         expect((result as Failure).failureRes, isA<NetworkFailure>());
       },
     );
@@ -145,10 +153,10 @@ void main() {
       'should return Server Failure when when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
-        when(mockRemoteDataSource.getAllTasks()).thenAnswer(
+        when(mockRemoteDataSource.getAllTasks(projectId: TestConstants.kProjectId)).thenAnswer(
           (_) => throw const ServerFailure(message: 'Something Went Wrong'),
         );
-        final result = await repositoryImp.getAllTasks();
+        final result = await repositoryImp.getAllTasks(projectId: TestConstants.kProjectId);
         expect((result as Failure).failureRes, isA<ServerFailure>());
       },
     );

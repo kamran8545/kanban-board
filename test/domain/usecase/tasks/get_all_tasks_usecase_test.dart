@@ -15,9 +15,9 @@ void main() {
   setUp(() {
     mockRepository = MockRepository();
     getAllTasksUseCase = GetAllTasksUseCase(repository: mockRepository);
-    provideDummy<Result<CustomFailure, List<TaskEntity>>>(
-      const Success<CustomFailure, List<TaskEntity>>(
-        successRes: kTaskEntitiesTest,
+    provideDummy<Result<CustomFailure, Map<String, List<TaskEntity>>>>(
+      const Success<CustomFailure, Map<String, List<TaskEntity>>>(
+        successRes: TestConstants.kTasksMap,
       ),
     );
   });
@@ -25,13 +25,15 @@ void main() {
   test(
     'should get list of task entity from repository',
     () async {
-      when(mockRepository.getAllTasks()).thenAnswer((_) async {
-        return const Success(successRes: kTaskEntitiesTest);
+      when(
+        mockRepository.getAllTasks(projectId: TestConstants.kProjectId),
+      ).thenAnswer((_) async {
+        return const Success(successRes: TestConstants.kTasksMap);
       });
 
-      final result = await getAllTasksUseCase.call(null);
+      final result = await getAllTasksUseCase.call(TestConstants.kProjectId);
 
-      expect((result as Success).successRes, kTaskEntitiesTest);
+      expect((result as Success).successRes, TestConstants.kTasksMap);
     },
   );
 }

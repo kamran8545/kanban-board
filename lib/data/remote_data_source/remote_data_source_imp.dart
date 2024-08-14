@@ -26,7 +26,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
       return false;
     } on DioException catch (error) {
       throw ServerFailure(
-        message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
       );
     } catch (e) {
       rethrow;
@@ -34,22 +34,23 @@ class RemoteDataSourceImp extends RemoteDataSource {
   }
 
   @override
-  Future<List<TaskEntity>> getAllTasks() async {
+  Future<Map<String, List<TaskEntity>>> getAllTasks({required String projectId}) async {
     try {
       _dio.options.headers = headers;
       final response = await _dio.get(
-        ApiUrls.tasksURL,
+        '${ApiUrls.tasksURL}?project_id=$projectId',
       );
-      List<TaskEntity> tasks = [];
+      Map<String, List<TaskEntity>> tasks = <String, List<TaskEntity>>{};
       if (response.statusCode == 200) {
-        for (var task in response.data) {
-          tasks.add(TaskEntity.fromJson(task));
+        for (var data in response.data) {
+          TaskEntity task = TaskEntity.fromJson(data);
+          tasks.putIfAbsent(task.labels.first, () => <TaskEntity>[]).add(task);
         }
       }
       return tasks;
     } on DioException catch (error) {
       throw ServerFailure(
-        message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
       );
     } catch (e) {
       rethrow;
@@ -70,7 +71,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
       return false;
     } on DioException catch (error) {
       throw ServerFailure(
-        message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
       );
     } catch (e) {
       rethrow;
@@ -91,7 +92,7 @@ class RemoteDataSourceImp extends RemoteDataSource {
       return false;
     } on DioException catch (error) {
       throw ServerFailure(
-        message: error.response == null ? AppConstants.somethingWentWrong : error.response!.data['message'].toString(),
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
       );
     } catch (e) {
       rethrow;

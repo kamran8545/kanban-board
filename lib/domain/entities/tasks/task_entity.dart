@@ -15,6 +15,7 @@ class TaskEntity with _$TaskEntity {
     @JsonKey(name: 'project_id')
     required String projectId,
     required int priority,
+    required List<String> labels,
     @JsonKey(name: 'due')
     required TaskDueDateEntity? dueDateEntity,
   }) = _TaskEntity;

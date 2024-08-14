@@ -13,6 +13,8 @@ _$TaskEntityImpl _$$TaskEntityImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       projectId: json['project_id'] as String,
       priority: (json['priority'] as num).toInt(),
+      labels:
+          (json['labels'] as List<dynamic>).map((e) => e as String).toList(),
       dueDateEntity: json['due'] == null
           ? null
           : TaskDueDateEntity.fromJson(json['due'] as Map<String, dynamic>),
@@ -25,5 +27,6 @@ Map<String, dynamic> _$$TaskEntityImplToJson(_$TaskEntityImpl instance) =>
       'description': instance.description,
       'project_id': instance.projectId,
       'priority': instance.priority,
+      'labels': instance.labels,
       'due': instance.dueDateEntity,
     };

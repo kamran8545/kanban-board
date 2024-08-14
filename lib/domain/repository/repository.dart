@@ -12,10 +12,10 @@ abstract class Repository {
   Future<Result<CustomFailure, bool>> addTasks(TaskEntity taskEntity);
 
   /// This method will fetch all tasks from server
-  /// Input : not required
-  /// Output : if operation successful returns [List<TaskEntity>]
+  /// Input : [String] project id
+  /// Output : if operation successful returns [Map<String, List<TaskEntity>>]
   /// if unsuccessful the response will be [CustomFailure]
-  Future<Result<CustomFailure, List<TaskEntity>>> getAllTasks();
+  Future<Result<CustomFailure, Map<String, List<TaskEntity>>>> getAllTasks({required String projectId});
 
   /// This method will update tasks on server
   /// Input : [TaskEntity] contains tasks data

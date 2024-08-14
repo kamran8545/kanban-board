@@ -26,6 +26,7 @@ mixin _$TaskEntity {
   @JsonKey(name: 'project_id')
   String get projectId => throw _privateConstructorUsedError;
   int get priority => throw _privateConstructorUsedError;
+  List<String> get labels => throw _privateConstructorUsedError;
   @JsonKey(name: 'due')
   TaskDueDateEntity? get dueDateEntity => throw _privateConstructorUsedError;
 
@@ -47,6 +48,7 @@ abstract class $TaskEntityCopyWith<$Res> {
       String description,
       @JsonKey(name: 'project_id') String projectId,
       int priority,
+      List<String> labels,
       @JsonKey(name: 'due') TaskDueDateEntity? dueDateEntity});
 
   $TaskDueDateEntityCopyWith<$Res>? get dueDateEntity;
@@ -70,6 +72,7 @@ class _$TaskEntityCopyWithImpl<$Res, $Val extends TaskEntity>
     Object? description = null,
     Object? projectId = null,
     Object? priority = null,
+    Object? labels = null,
     Object? dueDateEntity = freezed,
   }) {
     return _then(_value.copyWith(
@@ -93,6 +96,10 @@ class _$TaskEntityCopyWithImpl<$Res, $Val extends TaskEntity>
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
               as int,
+      labels: null == labels
+          ? _value.labels
+          : labels // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       dueDateEntity: freezed == dueDateEntity
           ? _value.dueDateEntity
           : dueDateEntity // ignore: cast_nullable_to_non_nullable
@@ -127,6 +134,7 @@ abstract class _$$TaskEntityImplCopyWith<$Res>
       String description,
       @JsonKey(name: 'project_id') String projectId,
       int priority,
+      List<String> labels,
       @JsonKey(name: 'due') TaskDueDateEntity? dueDateEntity});
 
   @override
@@ -149,6 +157,7 @@ class __$$TaskEntityImplCopyWithImpl<$Res>
     Object? description = null,
     Object? projectId = null,
     Object? priority = null,
+    Object? labels = null,
     Object? dueDateEntity = freezed,
   }) {
     return _then(_$TaskEntityImpl(
@@ -172,6 +181,10 @@ class __$$TaskEntityImplCopyWithImpl<$Res>
           ? _value.priority
           : priority // ignore: cast_nullable_to_non_nullable
               as int,
+      labels: null == labels
+          ? _value._labels
+          : labels // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       dueDateEntity: freezed == dueDateEntity
           ? _value.dueDateEntity
           : dueDateEntity // ignore: cast_nullable_to_non_nullable
@@ -189,7 +202,9 @@ class _$TaskEntityImpl implements _TaskEntity {
       required this.description,
       @JsonKey(name: 'project_id') required this.projectId,
       required this.priority,
-      @JsonKey(name: 'due') required this.dueDateEntity});
+      required final List<String> labels,
+      @JsonKey(name: 'due') required this.dueDateEntity})
+      : _labels = labels;
 
   factory _$TaskEntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskEntityImplFromJson(json);
@@ -205,13 +220,21 @@ class _$TaskEntityImpl implements _TaskEntity {
   final String projectId;
   @override
   final int priority;
+  final List<String> _labels;
+  @override
+  List<String> get labels {
+    if (_labels is EqualUnmodifiableListView) return _labels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_labels);
+  }
+
   @override
   @JsonKey(name: 'due')
   final TaskDueDateEntity? dueDateEntity;
 
   @override
   String toString() {
-    return 'TaskEntity(id: $id, content: $content, description: $description, projectId: $projectId, priority: $priority, dueDateEntity: $dueDateEntity)';
+    return 'TaskEntity(id: $id, content: $content, description: $description, projectId: $projectId, priority: $priority, labels: $labels, dueDateEntity: $dueDateEntity)';
   }
 
   @override
@@ -227,14 +250,22 @@ class _$TaskEntityImpl implements _TaskEntity {
                 other.projectId == projectId) &&
             (identical(other.priority, priority) ||
                 other.priority == priority) &&
+            const DeepCollectionEquality().equals(other._labels, _labels) &&
             (identical(other.dueDateEntity, dueDateEntity) ||
                 other.dueDateEntity == dueDateEntity));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, content, description,
-      projectId, priority, dueDateEntity);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      content,
+      description,
+      projectId,
+      priority,
+      const DeepCollectionEquality().hash(_labels),
+      dueDateEntity);
 
   @JsonKey(ignore: true)
   @override
@@ -257,6 +288,7 @@ abstract class _TaskEntity implements TaskEntity {
       required final String description,
       @JsonKey(name: 'project_id') required final String projectId,
       required final int priority,
+      required final List<String> labels,
       @JsonKey(name: 'due')
       required final TaskDueDateEntity? dueDateEntity}) = _$TaskEntityImpl;
 
@@ -274,6 +306,8 @@ abstract class _TaskEntity implements TaskEntity {
   String get projectId;
   @override
   int get priority;
+  @override
+  List<String> get labels;
   @override
   @JsonKey(name: 'due')
   TaskDueDateEntity? get dueDateEntity;

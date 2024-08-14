@@ -9,10 +9,10 @@ abstract class RemoteDataSource {
   Future<bool> addTasks(TaskEntity taskEntity);
 
   /// This method will fetch all the  tasks from server
-  /// Input : Not required
-  /// Output : if operation successful returns [List<TaskEntity>]
+  /// Input : [String] project id
+  /// Output : if operation successful returns [Map<String, List<TaskEntity>>]
   /// if unsuccessful it will throw respective exception
-  Future<List<TaskEntity>> getAllTasks();
+  Future<Map<String, List<TaskEntity>>> getAllTasks({required String projectId});
 
   /// This method will update tasks on server
   /// Input : [TaskEntity] contains tasks data

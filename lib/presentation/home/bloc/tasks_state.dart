@@ -2,7 +2,7 @@ import 'package:time_tracking_app/domain/entities/custom_failures.dart';
 import 'package:time_tracking_app/domain/entities/tasks/task_entity.dart';
 
 abstract class TasksState {
-  final List<TaskEntity>? tasks;
+  final Map<String, List<TaskEntity>>? tasks;
   final CustomFailure? failure;
 
   const TasksState({this.tasks, this.failure});
@@ -21,7 +21,7 @@ class TasksLoadingState extends TasksState {
 }
 
 class TasksLoadedState extends TasksState {
-  const TasksLoadedState({required List<TaskEntity> tasks}) : super(tasks: tasks);
+  const TasksLoadedState({required Map<String, List<TaskEntity>> tasks}) : super(tasks: tasks);
 }
 
 class TasksUpdatedState extends TasksState {

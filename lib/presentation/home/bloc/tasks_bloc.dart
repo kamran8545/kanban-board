@@ -4,6 +4,7 @@ import 'package:time_tracking_app/domain/usecase/tasks/create_tasks_usecase.dart
 import 'package:time_tracking_app/domain/usecase/tasks/update_task_usecase.dart';
 import 'package:time_tracking_app/presentation/home/bloc/tasks_event.dart';
 import 'package:time_tracking_app/presentation/home/bloc/tasks_state.dart';
+import 'package:time_tracking_app/utils/constants.dart';
 
 import '../../../domain/usecase/tasks/delete_task_usecase.dart';
 import '../../../domain/usecase/tasks/get_all_tasks_usecase.dart';
@@ -45,7 +46,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   void onGetAllTasks(GetAllTasksEvent getAllTasksEvent, Emitter<TasksState> emitter) async {
     emitter(const TasksLoadingState());
-    final result = await _getAllTasksUseCase(0);
+    final result = await _getAllTasksUseCase(AppConstants.kProjectId);
     switch (result) {
       case Success(successRes: final resposne):
         emitter(TasksLoadedState(tasks: resposne));

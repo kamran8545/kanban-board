@@ -180,7 +180,7 @@ void main() {
         () async {
           dioAdapter.onGet(
             '${ApiUrls.tasksURL}?project_id=${TestConstants.kProjectId}',
-            (mockServer) => mockServer.reply(200,TestConstants.kTaskEntitiesTest),
+            (mockServer) => mockServer.reply(200, TestConstants.kTaskEntitiesTest),
           );
           final result = await remoteDataSourceImp.getAllTasks(projectId: TestConstants.kProjectId);
           expect(result, TestConstants.kTasksMap);
@@ -220,4 +220,112 @@ void main() {
       );
     },
   );
+
+  group('add comment', () {
+    test(
+      'should return comment entity if the status code is 200',
+      () async {
+        dioAdapter.onPost(
+          ApiUrls.commentsURL,
+          data: TestConstants.kTestCommentEntity.toJson(),
+          (mockServer) => mockServer.reply(200, TestConstants.kTestCommentEntity),
+        );
+        final result = await remoteDataSourceImp.addComment(commentEntity: TestConstants.kTestCommentEntity);
+
+        expect(result, TestConstants.kTestCommentEntity);
+      },
+    );
+
+    test(
+      'should throw exception if the status code is not 200',
+      () async {
+        dioAdapter.onPost(
+          ApiUrls.commentsURL,
+          data: TestConstants.kTestCommentEntity.toJson(),
+          (mockServer) => mockServer.throws(
+            201,
+            DioException(
+              response: Response(requestOptions: RequestOptions(), data: {'message': 'Server Failure'}),
+              requestOptions: RequestOptions(
+                path: ApiUrls.tasksURL,
+              ),
+            ),
+          ),
+        );
+        final result = remoteDataSourceImp.addComment(commentEntity: TestConstants.kTestCommentEntity);
+        expect(result, throwsA(isA<ServerFailure>()));
+      },
+    );
+
+    test(
+      'should throw server failure exception',
+      () async {
+        dioAdapter.onPost(
+          ApiUrls.commentsURL,
+          data: TestConstants.kTestCommentEntity.toJson(),
+          (mockServer) => mockServer.throws(
+            400,
+            DioException(
+              response: Response(requestOptions: RequestOptions(), data: {'message': 'Server Failure'}),
+              requestOptions: RequestOptions(
+                path: ApiUrls.tasksURL,
+              ),
+            ),
+          ),
+        );
+        final result = remoteDataSourceImp.addComment(commentEntity: TestConstants.kTestCommentEntity);
+        expect(result, throwsA(isA<ServerFailure>()));
+      },
+    );
+  });
+
+  group('delete comment', () {
+    test(
+      'should return true if comment is deleted and status code is 204',
+      () async {
+        dioAdapter.onDelete(
+          '${ApiUrls.commentsURL}/${TestConstants.kTestCommentEntity.id}',
+          (mockServer) => mockServer.reply(204, true),
+        );
+        final result = await remoteDataSourceImp.deleteComment(commentId: TestConstants.kTestCommentEntity.id);
+
+        expect(result, true);
+      },
+    );
+
+    test(
+      'should return false if comment is not deleted the status code is not 204',
+      () async {
+        dioAdapter.onDelete(
+          '${ApiUrls.commentsURL}/${TestConstants.kTestCommentEntity.id}',
+          (mockServer) => mockServer.reply(
+            201,
+            false,
+          ),
+        );
+        final result = await remoteDataSourceImp.deleteComment(commentId: TestConstants.kTestCommentEntity.id);
+        expect(result, false);
+      },
+    );
+
+    test(
+      'should throw server failure exception',
+      () async {
+        dioAdapter.onDelete(
+          '${ApiUrls.commentsURL}/${TestConstants.kTestCommentEntity.id}',
+          (mockServer) => mockServer.throws(
+            400,
+            DioException(
+              response: Response(requestOptions: RequestOptions(), data: {'message': 'Server Failure'}),
+              requestOptions: RequestOptions(
+                path: '${ApiUrls.commentsURL}/${TestConstants.kTestCommentEntity.id}',
+              ),
+            ),
+          ),
+        );
+        final result = remoteDataSourceImp.deleteComment(commentId: TestConstants.kTestCommentEntity.id);
+        expect(result, throwsA(isA<ServerFailure>()));
+      },
+    );
+  });
 }

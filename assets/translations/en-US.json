@@ -1,6 +1,20 @@
 {
   "project_title": "Kanban Board",
+  "back_log": "Backlog",
   "to_do_label": "To Do",
   "in_progress_label": "In Progress",
-  "done_label": "Done"
+  "done_label": "Done",
+  "create_task": "Create Task",
+  "update_task": "Update Task",
+  "delete_task": "Delete Task",
+  "select_date": "Select Due Date",
+  "due_date": "Due Date",
+  "status": "Status",
+  "title": "Title",
+  "description": "Description",
+  "settings": "Settings",
+  "enable_dark_mode": "Enable Dark",
+  "task_update_successfully" : "Task updated successfully!",
+  "task_delete_successfully" : "Task deleted successfully!",
+  "something_went_wrong_try_again_later" : "Something Went Wrong, try again later"
 }

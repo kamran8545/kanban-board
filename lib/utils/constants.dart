@@ -4,6 +4,7 @@ class AppConstants {
   static const String kProjectId = '2337579550';
 
   static const kTaskLabelList = <String>[
+    LocaleKeys.back_log,
     LocaleKeys.to_do_label,
     LocaleKeys.in_progress_label,
     LocaleKeys.done_label,

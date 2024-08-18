@@ -1,0 +1,20 @@
+{
+  "project_title": "Канбан-доска",
+  "back_log": "Отставание",
+  "to_do_label": "Сделать",
+  "in_progress_label": "В ходе выполнения",
+  "done_label": "Сделанный",
+  "create_task": "Создать задачу",
+  "update_task": "Обновить задачу",
+  "delete_task": "Удалить задачу",
+  "select_date": "Выберите дату сдачи",
+  "due_date": "Срок оплаты",
+  "status": "Статус",
+  "title": "Заголовок",
+  "description": "Описание",
+  "settings": "Настройки",
+  "enable_dark_mode": "Включить темный",
+  "task_update_successfully" : "Задача успешно обновлена!",
+  "task_delete_successfully" : "Задача успешно удалена!",
+  "something_went_wrong_try_again_later" : "Что-то пошло не так, повторите попытку позже."
+}

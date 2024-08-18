@@ -1,3 +1,4 @@
+import '../../domain/entities/comments/comment_entity.dart';
 import '../../domain/entities/tasks/task_entity.dart';
 
 abstract class RemoteDataSource {
@@ -25,4 +26,16 @@ abstract class RemoteDataSource {
   /// Output : if operation successful returns [bool] true
   /// if unsuccessful it will throw respective exception
   Future<bool> deleteTask(String taskId);
+
+  /// This method will add comment on task
+  /// Input : [CommentEntity] contains comment data
+  /// Output : if operation successful returns [CommentEntity]
+  /// if unsuccessful it will throw respective exception
+  Future<CommentEntity> addComment({required CommentEntity commentEntity});
+
+  /// This method will delete comment on task
+  /// Input : [String] contains comment id
+  /// Output : if operation successful returns [bool] true
+  /// if unsuccessful it will throw respective exception
+  Future<bool> deleteComment({required String commentId});
 }

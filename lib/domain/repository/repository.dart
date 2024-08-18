@@ -1,3 +1,4 @@
+import 'package:time_tracking_app/domain/entities/comments/comment_entity.dart';
 import 'package:time_tracking_app/domain/entities/tasks/task_entity.dart';
 
 import '../entities/custom_failures.dart';
@@ -28,4 +29,16 @@ abstract class Repository {
   /// Output : if operation successful returns [bool] true
   /// if unsuccessful the response will be [CustomFailure]
   Future<Result<CustomFailure, bool>> deleteTask(String taskId);
+
+  /// This method will add comment on task
+  /// Input : [CommentEntity] contains comment data
+  /// Output : if operation successful returns [CommentEntity]
+  /// if unsuccessful the response will be [CustomFailure]
+  Future<Result<CustomFailure, CommentEntity>> addComment({required CommentEntity commentEntity});
+
+  /// This method will delete comment on task
+  /// Input : [String] contains comment id
+  /// Output : if operation successful returns [bool] true
+  /// if unsuccessful the response will be [CustomFailure]
+  Future<Result<CustomFailure, bool>> deleteComment({required String commentId});
 }

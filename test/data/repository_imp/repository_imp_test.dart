@@ -44,7 +44,7 @@ void main() {
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
         when(mockRemoteDataSource.addTasks(TestConstants.kTaskEntityTest)).thenAnswer(
-          (_) => throw const ServerFailure(message: 'Something Went Wrong'),
+          (_) => throw const ServerFailure(message: TestConstants.kSomethingWentWrong),
         );
         final result = await repositoryImp.addTasks(TestConstants.kTaskEntityTest);
         expect((result as Failure).failureRes, isA<ServerFailure>());
@@ -76,11 +76,11 @@ void main() {
     );
 
     test(
-      'should return Server Failure when when something went wrong',
+      'should return Server Failure when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
         when(mockRemoteDataSource.deleteTask(TestConstants.kTaskEntityTest.id)).thenAnswer(
-          (_) => throw const ServerFailure(message: 'Something Went Wrong'),
+          (_) => throw const ServerFailure(message: TestConstants.kSomethingWentWrong),
         );
         final result = await repositoryImp.deleteTask(TestConstants.kTaskEntityTest.id);
         expect((result as Failure).failureRes, isA<ServerFailure>());
@@ -112,11 +112,11 @@ void main() {
     );
 
     test(
-      'should return Server Failure when when something went wrong',
+      'should return Server Failure when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
         when(mockRemoteDataSource.updateTask(TestConstants.kTaskEntityTest)).thenAnswer(
-          (_) => throw const ServerFailure(message: 'Something Went Wrong'),
+          (_) => throw const ServerFailure(message: TestConstants.kSomethingWentWrong),
         );
         final result = await repositoryImp.updateTask(TestConstants.kTaskEntityTest);
         expect((result as Failure).failureRes, isA<ServerFailure>());
@@ -150,13 +150,95 @@ void main() {
     );
 
     test(
-      'should return Server Failure when when something went wrong',
+      'should return Server Failure when something went wrong',
       () async {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
         when(mockRemoteDataSource.getAllTasks(projectId: TestConstants.kProjectId)).thenAnswer(
-          (_) => throw const ServerFailure(message: 'Something Went Wrong'),
+          (_) => throw const ServerFailure(message: TestConstants.kSomethingWentWrong),
         );
         final result = await repositoryImp.getAllTasks(projectId: TestConstants.kProjectId);
+        expect((result as Failure).failureRes, isA<ServerFailure>());
+      },
+    );
+  });
+
+  group('add comment', () {
+    test(
+      'should return comment entity after adding comment',
+      () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) => Future.value(true));
+        when(
+          mockRemoteDataSource.addComment(commentEntity: TestConstants.kTestCommentEntity),
+        ).thenAnswer(
+          (_) => Future.value(TestConstants.kTestCommentEntity),
+        );
+
+        var result = await mockRemoteDataSource.addComment(commentEntity: TestConstants.kTestCommentEntity);
+        expect(result, TestConstants.kTestCommentEntity);
+      },
+    );
+
+    test(
+      'should return network failure when device is not connected to internet',
+      () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(false));
+        when(mockRemoteDataSource.addComment(commentEntity: TestConstants.kTestCommentEntity)).thenAnswer(
+          (_) async => TestConstants.kTestCommentEntity,
+        );
+        final result = await repositoryImp.addComment(commentEntity: TestConstants.kTestCommentEntity);
+        expect((result as Failure).failureRes, isA<NetworkFailure>());
+      },
+    );
+
+    test(
+      'should return Server Failure when something went wrong',
+      () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
+        when(mockRemoteDataSource.addComment(commentEntity: TestConstants.kTestCommentEntity)).thenAnswer(
+          (_) => throw const ServerFailure(message: TestConstants.kSomethingWentWrong),
+        );
+        final result = await repositoryImp.addComment(commentEntity: TestConstants.kTestCommentEntity);
+        expect((result as Failure).failureRes, isA<ServerFailure>());
+      },
+    );
+  });
+
+  group('delete comment', () {
+    test(
+      'should return true after deleting comment',
+      () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) => Future.value(true));
+        when(
+          mockRemoteDataSource.deleteComment(commentId: TestConstants.kTestCommentEntity.id),
+        ).thenAnswer(
+          (_) => Future.value(true),
+        );
+
+        var result = await mockRemoteDataSource.deleteComment(commentId: TestConstants.kTestCommentEntity.id);
+        expect(result, true);
+      },
+    );
+
+    test(
+      'should return network failure when device is not connected to internet',
+      () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(false));
+        when(mockRemoteDataSource.deleteComment(commentId: TestConstants.kTestCommentEntity.id)).thenAnswer(
+          (_) async => Future.value(true),
+        );
+        final result = await repositoryImp.deleteComment(commentId: TestConstants.kTestCommentEntity.id);
+        expect((result as Failure).failureRes, isA<NetworkFailure>());
+      },
+    );
+
+    test(
+      'should return Server Failure when something went wrong',
+      () async {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => Future.value(true));
+        when(mockRemoteDataSource.deleteComment(commentId: TestConstants.kTestCommentEntity.id)).thenAnswer(
+          (_) => throw const ServerFailure(message: TestConstants.kSomethingWentWrong),
+        );
+        final result = await repositoryImp.deleteComment(commentId: TestConstants.kTestCommentEntity.id);
         expect((result as Failure).failureRes, isA<ServerFailure>());
       },
     );

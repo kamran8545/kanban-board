@@ -1,4 +1,5 @@
 import 'package:time_tracking_app/data/remote_data_source/remote_data_source.dart';
+import 'package:time_tracking_app/domain/entities/comments/comment_entity.dart';
 import 'package:time_tracking_app/domain/entities/custom_failures.dart';
 import 'package:time_tracking_app/domain/entities/result.dart';
 import 'package:time_tracking_app/domain/entities/tasks/task_entity.dart';
@@ -70,6 +71,36 @@ class RepositoryImp implements Repository {
 
     try {
       return Success(successRes: await _remoteDataSource.deleteTask(taskId));
+    } on CustomFailure catch (e) {
+      return Failure(failureRes: e);
+    } catch (e) {
+      return Failure(failureRes: ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<CustomFailure, CommentEntity>> addComment({required CommentEntity commentEntity}) async {
+    if (!await _networkInfo.isConnected) {
+      return const Failure(failureRes: NetworkFailure(message: AppConstants.kNoInternet));
+    }
+
+    try {
+      return Success(successRes: await _remoteDataSource.addComment(commentEntity: commentEntity));
+    } on CustomFailure catch (e) {
+      return Failure(failureRes: e);
+    } catch (e) {
+      return Failure(failureRes: ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Result<CustomFailure, bool>> deleteComment({required String commentId}) async {
+    if (!await _networkInfo.isConnected) {
+      return const Failure(failureRes: NetworkFailure(message: AppConstants.kNoInternet));
+    }
+
+    try {
+      return Success(successRes: await _remoteDataSource.deleteComment(commentId: commentId));
     } on CustomFailure catch (e) {
       return Failure(failureRes: e);
     } catch (e) {

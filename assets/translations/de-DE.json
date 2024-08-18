@@ -1,0 +1,20 @@
+{
+  "project_title": "Kanban-Board",
+  "back_log": "Rückstand",
+  "to_do_label": "Zu tun",
+  "in_progress_label": "Im Gange",
+  "done_label": "Erledigt",
+  "create_task": "Aufgabe erstellen",
+  "update_task": "Update-Aufgabe",
+  "delete_task": "Aufgabe löschen",
+  "select_date": "Wählen Sie Fälligkeitsdatum aus",
+  "due_date": "Fälligkeitsdatum",
+  "status": "Status",
+  "title": "Titel",
+  "description": "Beschreibung",
+  "settings": "Einstellungen",
+  "enable_dark_mode": "Aktivieren Sie Dunkel",
+  "task_update_successfully" : "Aufgabe erfolgreich aktualisiert!",
+  "task_delete_successfully" : "Aufgabe erfolgreich gelöscht!",
+  "something_went_wrong_try_again_later" : "Etwas ist schief gelaufen. Versuchen Sie es später noch einmal"
+}

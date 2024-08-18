@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:time_tracking_app/data/remote_data_source/remote_data_source.dart';
+import 'package:time_tracking_app/domain/entities/comments/comment_entity.dart';
 import 'package:time_tracking_app/domain/entities/custom_failures.dart';
 import 'package:time_tracking_app/domain/entities/tasks/task_entity.dart';
 import 'package:time_tracking_app/utils/api_urls.dart';
@@ -84,6 +85,49 @@ class RemoteDataSourceImp extends RemoteDataSource {
       _dio.options.headers = headers;
       final response = await _dio.delete(
         '${ApiUrls.tasksURL}/$taskId',
+      );
+
+      if (response.statusCode == 204) {
+        return true;
+      }
+      return false;
+    } on DioException catch (error) {
+      throw ServerFailure(
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<CommentEntity> addComment({required CommentEntity commentEntity}) async {
+    try {
+      _dio.options.headers = headers;
+      final response = await _dio.post(
+        ApiUrls.commentsURL,
+        data: commentEntity.toJson(),
+      );
+
+      if (response.statusCode == 200) {
+        return CommentEntity.fromJson(response.data);
+      }
+      throw const ServerFailure(message: AppConstants.kSomethingWentWrong);
+    } on DioException catch (error) {
+      throw ServerFailure(
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> deleteComment({required String commentId}) async{
+    try {
+      _dio.options.headers = headers;
+      final response = await _dio.delete(
+        '${ApiUrls.commentsURL}/$commentId',
       );
 
       if (response.statusCode == 204) {

@@ -66,11 +66,9 @@ class BoardColumnWidget extends StatelessWidget {
                           return ListView(
                             children: [
                               if (tasks.isEmpty)
-                                Flexible(
-                                  child: Container(
-                                    color: Colors.red,
-                                    width: AppTheme.boardColumnWidth.w,
-                                  ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height * .8,
+                                  width: AppTheme.boardColumnWidth.w,
                                 ),
                               for (var task in tasks)
                                 GestureDetector(

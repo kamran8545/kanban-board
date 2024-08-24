@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:time_tracking_app/presentation/update_task/bloc/add_task_comment/add_task_comment_bloc.dart';
+import 'package:time_tracking_app/presentation/update_task/bloc/add_task_comment/add_task_comment_state.dart';
 import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_bloc.dart';
 import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_event.dart';
 import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_state.dart';
@@ -16,6 +18,7 @@ import '../../utils/constants.dart';
 import '../create_task/widgets/decorated_container.dart';
 import '../home/bloc/get_all_tasks_bloc/get_all_tasks_bloc.dart';
 import '../home/bloc/get_all_tasks_bloc/get_all_tasks_event.dart';
+import 'bloc/add_task_comment/add_task_comment_event.dart';
 import 'bloc/update_task_form_bloc/update_task_form_bloc.dart';
 import 'bloc/update_task_form_bloc/update_task_form_event.dart';
 import 'bloc/update_task_form_bloc/update_task_form_state.dart';
@@ -23,7 +26,8 @@ import 'bloc/update_task_form_bloc/update_task_form_state.dart';
 class UpdateTaskScreen extends StatelessWidget {
   final TaskEntity task;
 
-  const UpdateTaskScreen({super.key, required this.task});
+  UpdateTaskScreen({super.key, required this.task});
+  final TextEditingController commentTEController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,9 @@ class UpdateTaskScreen extends StatelessWidget {
         BlocProvider<DeleteTaskBloc>(
           create: (_) => DeleteTaskBloc(deleteTaskUseCase: sl()),
         ),
+        BlocProvider<AddTaskCommentBloc>(
+          create: (_) => AddTaskCommentBloc(addCommentsUseCase: sl()),
+        ),
       ],
       child: Scaffold(
         backgroundColor: themeData.scaffoldBackgroundColor,
@@ -52,14 +59,75 @@ class UpdateTaskScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppTheme.horizontalPadding.w,
-              vertical: AppTheme.verticalPadding.h,
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppTheme.horizontalPadding.w,
+                    vertical: AppTheme.verticalPadding.h,
+                  ),
+                  child: const TaskForm(),
+                ),
+              ),
             ),
-            child: const TaskForm(),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BlocBuilder<AddTaskCommentBloc, AddTaskCommentState>(builder: (context, state) {
+                if(state.isAdded){
+                  commentTEController.text = '';
+                }
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: DecoratedContainer(
+                        radius: 25,
+                        child: TextFormField(
+                          controller: commentTEController,
+                          decoration: InputDecoration(
+                              hintText: LocaleKeys.add_comment.tr(),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+                              border: InputBorder.none),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              context.read<AddTaskCommentBloc>().add(AddTaskCommentChangeEvent(comment: newValue));
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    GestureDetector(
+                      onTap: () {
+                        if (state.isSubmitting) {
+                          return;
+                        }
+                        context.read<AddTaskCommentBloc>().add(AddTaskCommentAddEvent(taskId: task.id));
+                      },
+                      child: state.isSubmitting
+                          ? Container(
+                        padding: EdgeInsets.all(6.r),
+                              height: 40.h,
+                              width: 40.w,
+                              child: Center(child: CircularProgressIndicator(color: themeData.shadowColor)),
+                            )
+                          : DecoratedContainer(
+                              padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 10.w),
+                              radius: 25,
+                              child: Icon(
+                                Icons.send,
+                                color: themeData.shadowColor,
+                              ),
+                            ),
+                    )
+                  ],
+                );
+              }),
+            ),
+            SizedBox(height: 3.h)
+          ],
         ),
       ),
     );

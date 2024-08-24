@@ -11,6 +11,8 @@ import 'package:time_tracking_app/domain/usecase/tasks/update_task_usecase.dart'
 import 'package:time_tracking_app/presentation/create_task/bloc/task_form_bloc/task_form_bloc.dart';
 import 'package:time_tracking_app/presentation/home/bloc/get_all_tasks_bloc/get_all_tasks_bloc.dart';
 import 'package:time_tracking_app/presentation/settings/bloc/settings_bloc.dart';
+import 'package:time_tracking_app/presentation/update_task/bloc/add_task_comment/add_task_comment_bloc.dart';
+import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_bloc.dart';
 import 'package:time_tracking_app/presentation/update_task/bloc/update_task_form_bloc/update_task_form_bloc.dart';
 
 @GenerateMocks(
@@ -28,6 +30,8 @@ import 'package:time_tracking_app/presentation/update_task/bloc/update_task_form
     TaskFormBloc,
     GetAllTasksBloc,
     UpdateTaskFormBloc,
+    DeleteTaskBloc,
+    AddTaskCommentBloc,
     SettingsBloc,
   ],
 )

@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../translations/locale_keys.g.dart';
 import '../../../utils/constants.dart';
 import '../bloc/get_all_tasks_bloc/get_all_tasks_bloc.dart';
 import '../bloc/get_all_tasks_bloc/get_all_tasks_state.dart';
@@ -88,6 +91,14 @@ class ScrollOnPointerEdgeWidget extends StatelessWidget {
                   ],
                 );
               }
+              return Container(
+                width: MediaQuery.of(context).size.width - 40.w,
+                alignment: Alignment.center,
+                child: Text(
+                    LocaleKeys.no_task_found.tr(),
+                  style: themeData.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
+                ),
+              );
             }
             return const SizedBox.shrink();
           },

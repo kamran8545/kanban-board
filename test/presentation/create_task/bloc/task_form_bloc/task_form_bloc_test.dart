@@ -22,15 +22,14 @@ void main() {
 
   blocTest<TaskFormBloc, TaskFormState>(
     'should emit [CreateTaskLoadingState, CreateTaskCreatedState] when task is created',
-    build: () {
-      taskFormBloc.add(TitleChanged(TestConstants.kTaskEntityTest.content));
-      taskFormBloc.add(DescriptionChanged(TestConstants.kTaskEntityTest.description));
-      taskFormBloc.add(PriorityChanged(TestConstants.kTaskEntityTest.priority));
-      taskFormBloc.add(LabelChanged(TestConstants.kTaskEntityTest.labels.first));
-
-      return taskFormBloc;
+    build: () => taskFormBloc,
+    act: (bloc) {
+      bloc.add(TitleChanged(TestConstants.kTaskEntityTest.content));
+      bloc.add(DescriptionChanged(TestConstants.kTaskEntityTest.description));
+      bloc.add(PriorityChanged(TestConstants.kTaskEntityTest.priority));
+      bloc.add(LabelChanged(TestConstants.kTaskEntityTest.labels.first));
+      bloc.add(const SubmitTaskForm());
     },
-    act: (bloc) => bloc.add(const SubmitTaskForm()),
     expect: () => [
       taskFormBloc.state.copyWith(
         title: TestConstants.kTaskEntityTest.content,

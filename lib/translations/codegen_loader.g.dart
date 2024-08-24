@@ -16,6 +16,7 @@ class CodegenLoader extends AssetLoader{
 
   static const Map<String,dynamic> de_DE = {
   "project_title": "Kanban-Board",
+  "no_task_found": "Keine Aufgaben gefunden!",
   "back_log": "Rückstand",
   "to_do_label": "Zu tun",
   "in_progress_label": "Im Gange",
@@ -28,6 +29,7 @@ class CodegenLoader extends AssetLoader{
   "status": "Status",
   "title": "Titel",
   "description": "Beschreibung",
+  "add_comment": "Kommentar hinzufügen...",
   "settings": "Einstellungen",
   "enable_dark_mode": "Aktivieren Sie Dunkel",
   "task_update_successfully": "Aufgabe erfolgreich aktualisiert!",
@@ -36,6 +38,7 @@ class CodegenLoader extends AssetLoader{
 };
 static const Map<String,dynamic> ru_RU = {
   "project_title": "Канбан-доска",
+  "no_task_found": "Задачи не найдены!",
   "back_log": "Отставание",
   "to_do_label": "Сделать",
   "in_progress_label": "В ходе выполнения",
@@ -48,6 +51,7 @@ static const Map<String,dynamic> ru_RU = {
   "status": "Статус",
   "title": "Заголовок",
   "description": "Описание",
+  "add_comment": "Добавить комментарий...",
   "settings": "Настройки",
   "enable_dark_mode": "Включить темный",
   "task_update_successfully": "Задача успешно обновлена!",
@@ -56,6 +60,7 @@ static const Map<String,dynamic> ru_RU = {
 };
 static const Map<String,dynamic> en_US = {
   "project_title": "Kanban Board",
+  "no_task_found": "No Tasks Found!",
   "back_log": "Backlog",
   "to_do_label": "To Do",
   "in_progress_label": "In Progress",
@@ -68,6 +73,7 @@ static const Map<String,dynamic> en_US = {
   "status": "Status",
   "title": "Title",
   "description": "Description",
+  "add_comment": "Add Comment...",
   "settings": "Settings",
   "enable_dark_mode": "Enable Dark",
   "task_update_successfully": "Task updated successfully!",

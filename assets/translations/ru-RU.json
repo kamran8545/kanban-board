@@ -1,5 +1,6 @@
 {
   "project_title": "Канбан-доска",
+  "no_task_found": "Задачи не найдены!",
   "back_log": "Отставание",
   "to_do_label": "Сделать",
   "in_progress_label": "В ходе выполнения",
@@ -12,6 +13,7 @@
   "status": "Статус",
   "title": "Заголовок",
   "description": "Описание",
+  "add_comment": "Добавить комментарий...",
   "settings": "Настройки",
   "enable_dark_mode": "Включить темный",
   "task_update_successfully" : "Задача успешно обновлена!",

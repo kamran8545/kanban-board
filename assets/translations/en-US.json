@@ -1,5 +1,6 @@
 {
   "project_title": "Kanban Board",
+  "no_task_found": "No Tasks Found!",
   "back_log": "Backlog",
   "to_do_label": "To Do",
   "in_progress_label": "In Progress",
@@ -12,6 +13,7 @@
   "status": "Status",
   "title": "Title",
   "description": "Description",
+  "add_comment": "Add Comment...",
   "settings": "Settings",
   "enable_dark_mode": "Enable Dark",
   "task_update_successfully" : "Task updated successfully!",

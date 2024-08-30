@@ -16,6 +16,9 @@ abstract class  LocaleKeys {
   static const title = 'title';
   static const description = 'description';
   static const add_comment = 'add_comment';
+  static const you = 'you';
+  static const comments = 'comments';
+  static const no_comments = 'no_comments';
   static const settings = 'settings';
   static const enable_dark_mode = 'enable_dark_mode';
   static const task_update_successfully = 'task_update_successfully';

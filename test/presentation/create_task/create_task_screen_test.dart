@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
-import 'package:time_tracking_app/core/dependency_injection.dart';
 import 'package:time_tracking_app/domain/usecase/tasks/create_tasks_usecase.dart';
 import 'package:time_tracking_app/presentation/create_task/bloc/task_form_bloc/task_form_bloc.dart';
 import 'package:time_tracking_app/presentation/create_task/bloc/task_form_bloc/task_form_state.dart';
@@ -14,6 +14,8 @@ import '../../helpers/test_helper.mocks.dart';
 import '../../utils/constants.dart';
 
 void main() {
+  var sl = GetIt.I;
+
   late MockTaskFormBloc mockTaskFormBloc;
   late MockCreateTasksUseCase mockCreateTasksUseCase;
 

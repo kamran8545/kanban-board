@@ -107,4 +107,19 @@ class RepositoryImp implements Repository {
       return Failure(failureRes: ServerFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Result<CustomFailure, List<CommentEntity>>> getAllComments({required String taskId}) async{
+    if (!await _networkInfo.isConnected) {
+      return const Failure(failureRes: NetworkFailure(message: AppConstants.kNoInternet));
+    }
+
+    try {
+      return Success(successRes: await _remoteDataSource.getAllComments(taskId: taskId));
+    } on CustomFailure catch (e) {
+    return Failure(failureRes: e);
+    } catch (e) {
+    return Failure(failureRes: ServerFailure(message: e.toString()));
+    }
+  }
 }

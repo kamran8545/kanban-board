@@ -243,4 +243,36 @@ void main() {
       },
     );
   });
+
+  group('get all comments', () {
+    test('should get list of all comments', () async {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getAllComments(taskId: TestConstants.kTaskEntityTest.id)).thenAnswer(
+        (_) async => TestConstants.kTestComments,
+      );
+
+      var result = await repositoryImp.getAllComments(taskId: TestConstants.kTaskEntityTest.id);
+      expect((result as Success).successRes, TestConstants.kTestComments);
+    });
+
+    test('should return network failure when device is not connected to internet', () async {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(mockRemoteDataSource.getAllComments(taskId: TestConstants.kTaskEntityTest.id)).thenAnswer(
+        (_) async => TestConstants.kTestComments,
+      );
+
+      var result = await repositoryImp.getAllComments(taskId: TestConstants.kTaskEntityTest.id);
+      expect((result as Failure).failureRes, isA<NetworkFailure>());
+    });
+
+    test('should return server failure when something went wrong', () async {
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getAllComments(taskId: TestConstants.kTaskEntityTest.id)).thenThrow(
+        const ServerFailure(message: TestConstants.kSomethingWentWrong),
+      );
+
+      var result = await repositoryImp.getAllComments(taskId: TestConstants.kTaskEntityTest.id);
+      expect((result as Failure).failureRes, isA<ServerFailure>());
+    });
+  });
 }

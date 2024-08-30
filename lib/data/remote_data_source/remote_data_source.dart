@@ -38,4 +38,10 @@ abstract class RemoteDataSource {
   /// Output : if operation successful returns [bool] true
   /// if unsuccessful it will throw respective exception
   Future<bool> deleteComment({required String commentId});
+
+  /// This method will fetch all comments from server
+  /// Input : [String] contains task id
+  /// Output : if operation successful returns [List<CommentEntity>]
+  /// if unsuccessful it will throw respective exception
+  Future<List<CommentEntity>> getAllComments({required String taskId});
 }

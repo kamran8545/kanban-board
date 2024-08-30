@@ -328,4 +328,53 @@ void main() {
       },
     );
   });
+
+  group('get all comments', () {
+    test('should return list of comments if the status code is 200', () async {
+      dioAdapter.onGet(
+        '${ApiUrls.commentsURL}?task_id=${TestConstants.kTaskEntityTest.id}',
+        (mockServer) => mockServer.reply(
+          200,
+          TestConstants.kTestComments,
+        ),
+      );
+
+      var result = await remoteDataSourceImp.getAllComments(taskId: TestConstants.kTaskEntityTest.id);
+      expect(result, TestConstants.kTestComments);
+    });
+
+    test('should return empty list if the status code is not 200', () async {
+      dioAdapter.onGet(
+        '${ApiUrls.commentsURL}?task_id=${TestConstants.kTaskEntityTest.id}',
+        (mockServer) => mockServer.reply(
+          201,
+          [],
+        ),
+      );
+
+      var result = await remoteDataSourceImp.getAllComments(taskId: TestConstants.kTaskEntityTest.id);
+      expect(result, []);
+    });
+
+    test('should throw sever exception when something went wrong', () async {
+      dioAdapter.onGet(
+        '${ApiUrls.commentsURL}?task_id=${TestConstants.kTaskEntityTest.id}',
+        (mockServer) => mockServer.throws(
+          400,
+          DioException(
+            requestOptions: RequestOptions(
+              path: '${ApiUrls.commentsURL}?task_id=${TestConstants.kTaskEntityTest.id}',
+            ),
+            response: Response(
+              requestOptions: RequestOptions(),
+              data: {'message': 'Server Failure'},
+            ),
+          ),
+        ),
+      );
+
+      var result = remoteDataSourceImp.getAllComments(taskId: TestConstants.kTaskEntityTest.id);
+      expect(result, throwsA(isA<ServerFailure>()));
+    });
+  });
 }

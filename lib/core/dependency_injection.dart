@@ -13,6 +13,7 @@ import '../data/remote_data_source/remote_data_source.dart';
 import '../data/remote_data_source/remote_data_source_imp.dart';
 import '../data/repository_imp/repository_imp.dart';
 import '../domain/repository/repository.dart';
+import '../domain/usecase/comments/get_all_comments_usecase.dart';
 import '../presentation/create_task/bloc/create_task_bloc/create_task_bloc.dart';
 import '../presentation/home/bloc/get_all_tasks_bloc/get_all_tasks_bloc.dart';
 import '../presentation/update_task/bloc/update_task_bloc/update_task_bloc.dart';
@@ -53,6 +54,7 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton<DeleteTaskUseCase>(() => DeleteTaskUseCase(repository: sl()));
   sl.registerLazySingleton<AddCommentsUseCase>(() => AddCommentsUseCase(repository: sl()));
   sl.registerLazySingleton<DeleteCommentUseCase>(() => DeleteCommentUseCase(repository: sl()));
+  sl.registerLazySingleton<GetAllCommentsUseCase>(() => GetAllCommentsUseCase(repository: sl()));
 
   /// Blocs
   sl.registerLazySingleton<CreateTaskBloc>(

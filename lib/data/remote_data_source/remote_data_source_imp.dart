@@ -142,4 +142,29 @@ class RemoteDataSourceImp extends RemoteDataSource {
       rethrow;
     }
   }
+
+  @override
+  Future<List<CommentEntity>> getAllComments({required String taskId}) async {
+    try {
+      _dio.options.headers = headers;
+      final response = await _dio.get(
+        '${ApiUrls.commentsURL}?task_id=$taskId',
+      );
+
+      List<CommentEntity> comments = [];
+      if (response.statusCode == 200) {
+        for (var data in response.data) {
+          CommentEntity commentEntity = CommentEntity.fromJson(data);
+          comments.add(commentEntity);
+        }
+      }
+      return comments;
+    } on DioException catch (error) {
+      throw ServerFailure(
+        message: error.response == null ? AppConstants.kSomethingWentWrong : error.response!.data['message'].toString(),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -40,6 +40,24 @@ class TestConstants {
   static const kTestCommentEntity = CommentEntity(
     id: '942',
     content: "Test Comment",
-    taskId: "94824",
+    taskId: "10",
   );
+
+  static const kTestComments = [
+    CommentEntity(
+      id: '942',
+      content: "Test Comment",
+      taskId: "10",
+    ),
+    CommentEntity(
+      id: '943',
+      content: "Test Comment 2",
+      taskId: "10",
+    ),
+    CommentEntity(
+      id: '944',
+      content: "Test Comment 3",
+      taskId: "10",
+    ),
+  ];
 }

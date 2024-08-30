@@ -4,21 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:time_tracking_app/presentation/update_task/bloc/add_task_comment/add_task_comment_bloc.dart';
-import 'package:time_tracking_app/presentation/update_task/bloc/add_task_comment/add_task_comment_state.dart';
+import 'package:time_tracking_app/presentation/update_task/bloc/delete_comment_bloc/delete_comment_bloc.dart';
 import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_bloc.dart';
-import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_event.dart';
-import 'package:time_tracking_app/presentation/update_task/bloc/delete_task_bloc/delete_task_state.dart';
+import 'package:time_tracking_app/presentation/update_task/bloc/get_all_task_comments/get_all_tasks_comments_event.dart';
+import 'package:time_tracking_app/presentation/update_task/widgets/add_comment_widget.dart';
+import 'package:time_tracking_app/presentation/update_task/widgets/comments_list.dart';
+import 'package:time_tracking_app/presentation/update_task/widgets/delete_task_widget.dart';
 
 import '../../core/dependency_injection.dart';
-import '../../domain/entities/custom_failures.dart';
 import '../../domain/entities/tasks/task_entity.dart';
 import '../../translations/locale_keys.g.dart';
 import '../../utils/app_theme.dart';
 import '../../utils/constants.dart';
 import '../create_task/widgets/decorated_container.dart';
-import '../home/bloc/get_all_tasks_bloc/get_all_tasks_bloc.dart';
-import '../home/bloc/get_all_tasks_bloc/get_all_tasks_event.dart';
-import 'bloc/add_task_comment/add_task_comment_event.dart';
+import 'bloc/get_all_task_comments/get_all_tasks_comments_bloc.dart';
 import 'bloc/update_task_form_bloc/update_task_form_bloc.dart';
 import 'bloc/update_task_form_bloc/update_task_form_event.dart';
 import 'bloc/update_task_form_bloc/update_task_form_state.dart';
@@ -26,8 +25,7 @@ import 'bloc/update_task_form_bloc/update_task_form_state.dart';
 class UpdateTaskScreen extends StatelessWidget {
   final TaskEntity task;
 
-  UpdateTaskScreen({super.key, required this.task});
-  final TextEditingController commentTEController = TextEditingController();
+  const UpdateTaskScreen({super.key, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +44,13 @@ class UpdateTaskScreen extends StatelessWidget {
         BlocProvider<AddTaskCommentBloc>(
           create: (_) => AddTaskCommentBloc(addCommentsUseCase: sl()),
         ),
+        BlocProvider<GetAllTasksCommentsBloc>(
+          create: (_) => GetAllTasksCommentsBloc(getAllCommentsUseCase: sl())
+            ..add(
+              GetAllTasksCommentsEvent(taskId: task.id),
+            ),
+        ),
+        BlocProvider(create: (_)=> DeleteCommentBloc(deleteCommentUseCase: sl()))
       ],
       child: Scaffold(
         backgroundColor: themeData.scaffoldBackgroundColor,
@@ -68,63 +73,23 @@ class UpdateTaskScreen extends StatelessWidget {
                     horizontal: AppTheme.horizontalPadding.w,
                     vertical: AppTheme.verticalPadding.h,
                   ),
-                  child: const TaskForm(),
+                  child: Column(
+                    children: [
+                      DeleteTaskWidget(
+                        taskEntity: task,
+                      ),
+                      const TaskForm(),
+                      const SizedBox(height: 16),
+                      CommentsList(
+                        taskEntity: task,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlocBuilder<AddTaskCommentBloc, AddTaskCommentState>(builder: (context, state) {
-                if(state.isAdded){
-                  commentTEController.text = '';
-                }
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: DecoratedContainer(
-                        radius: 25,
-                        child: TextFormField(
-                          controller: commentTEController,
-                          decoration: InputDecoration(
-                              hintText: LocaleKeys.add_comment.tr(),
-                              contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
-                              border: InputBorder.none),
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              context.read<AddTaskCommentBloc>().add(AddTaskCommentChangeEvent(comment: newValue));
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 8.w),
-                    GestureDetector(
-                      onTap: () {
-                        if (state.isSubmitting) {
-                          return;
-                        }
-                        context.read<AddTaskCommentBloc>().add(AddTaskCommentAddEvent(taskId: task.id));
-                      },
-                      child: state.isSubmitting
-                          ? Container(
-                        padding: EdgeInsets.all(6.r),
-                              height: 40.h,
-                              width: 40.w,
-                              child: Center(child: CircularProgressIndicator(color: themeData.shadowColor)),
-                            )
-                          : DecoratedContainer(
-                              padding: EdgeInsets.only(left: 10.w, top: 10.h, bottom: 10.h, right: 10.w),
-                              radius: 25,
-                              child: Icon(
-                                Icons.send,
-                                color: themeData.shadowColor,
-                              ),
-                            ),
-                    )
-                  ],
-                );
-              }),
+            AddCommentWidget(
+              taskEntity: task,
             ),
             SizedBox(height: 3.h)
           ],
@@ -151,97 +116,8 @@ class TaskForm extends StatelessWidget {
       builder: (context, state) {
         if (state.title.isEmpty) return const SizedBox.shrink();
         return Form(
-          child: ListView(
-            shrinkWrap: true,
+          child: Column(
             children: [
-              BlocBuilder<DeleteTaskBloc, DeleteTaskBlocState>(
-                builder: (context, innerState) {
-                  return innerState.when(
-                    initial: (String? taskId) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              context.read<DeleteTaskBloc>().add(DeleteTaskDeleteEvent(taskId: state.id));
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
-                              decoration: BoxDecoration(
-                                  color: themeData.primaryColorLight, borderRadius: BorderRadius.circular(40.r)),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.delete,
-                                    color: themeData.shadowColor,
-                                  ),
-                                  Text(
-                                    LocaleKeys.delete_task.tr(),
-                                    style: themeData.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w900),
-                                  ),
-                                  SizedBox(
-                                    width: 4.w,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    loading: () {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 62.w, vertical: 10.h),
-                            decoration: BoxDecoration(
-                                color: themeData.primaryColorLight, borderRadius: BorderRadius.circular(40.r)),
-                            child: SizedBox(
-                              height: 15.h,
-                              width: 15.w,
-                              child: CircularProgressIndicator(color: themeData.shadowColor),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    deleted: () {
-                      Future.delayed(const Duration(milliseconds: 300), () {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                LocaleKeys.task_delete_successfully.tr(),
-                              ),
-                            ),
-                          );
-                          sl<GetAllTasksBloc>().add(const GetAllTasksEvent(projectId: AppConstants.kProjectId));
-                          context.pop();
-                        }
-                      });
-                      return const SizedBox.shrink();
-                    },
-                    error: (CustomFailure failure) {
-                      Future.delayed(const Duration(milliseconds: 300), () {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                LocaleKeys.something_went_wrong_try_again_later.tr(),
-                              ),
-                            ),
-                          );
-                        }
-                      });
-                      return const SizedBox.shrink();
-                    },
-                  );
-                },
-              ),
               SizedBox(height: 20.h),
               DecoratedContainer(
                 child: TextFormField(

@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
-import 'package:time_tracking_app/core/dependency_injection.dart';
 import 'package:time_tracking_app/domain/entities/custom_failures.dart';
 import 'package:time_tracking_app/domain/entities/result.dart';
 import 'package:time_tracking_app/presentation/home/bloc/get_all_tasks_bloc/get_all_tasks_bloc.dart';
@@ -13,6 +13,8 @@ import '../../../../helpers/test_helper.mocks.dart';
 import '../../../../utils/constants.dart';
 
 void main() {
+  var sl = GetIt.I;
+
   late MockUpdateTasksUseCase mockUpdateTasksUseCase;
   late UpdateTaskFormBloc updateTaskFormBloc;
   late MockGetAllTasksBloc mockGetAllTasksBloc;
@@ -85,5 +87,7 @@ void main() {
 
   tearDown(() {
     sl.reset();
+    updateTaskFormBloc.close();
+    mockGetAllTasksBloc.close();
   });
 }

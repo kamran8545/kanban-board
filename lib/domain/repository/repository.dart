@@ -41,4 +41,10 @@ abstract class Repository {
   /// Output : if operation successful returns [bool] true
   /// if unsuccessful the response will be [CustomFailure]
   Future<Result<CustomFailure, bool>> deleteComment({required String commentId});
+
+  /// This method will fetch all comments from server
+  /// Input : [String] contains task id
+  /// Output : if operation successful returns [List<CommentEntity>]
+  /// if unsuccessful the response will be [CustomFailure]
+  Future<Result<CustomFailure, List<CommentEntity>>> getAllComments({required String taskId});
 }

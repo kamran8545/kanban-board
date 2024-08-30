@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/mockito.dart';
-import 'package:time_tracking_app/core/dependency_injection.dart';
 import 'package:time_tracking_app/domain/entities/custom_failures.dart';
 import 'package:time_tracking_app/domain/entities/result.dart';
 import 'package:time_tracking_app/presentation/create_task/bloc/create_task_bloc/create_task_bloc.dart';
@@ -13,6 +13,8 @@ import '../../../../helpers/test_helper.mocks.dart';
 import '../../../../utils/constants.dart';
 
 void main() {
+  var sl = GetIt.I;
+
   late MockCreateTasksUseCase mockCreateTasksUseCase;
   late CreateTaskBloc createTaskBloc;
   late MockTaskFormBloc mockTaskFormBloc;

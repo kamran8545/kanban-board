@@ -66,6 +66,7 @@ class DeleteTaskWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  const Spacer(),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 62.w, vertical: 10.h),
                     decoration:
